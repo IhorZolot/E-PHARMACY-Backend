@@ -1,13 +1,14 @@
 import mongoose from 'mongoose'
+import 'dotenv/config'
 import app from './app.js'
 
-// const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3001
 
 mongoose
 	.connect(process.env.DB_HOST)
 	.then(() => {
-		app.listen(3000, () => {
-			console.log(`Server running. Use our API on port: 3000`)
+		app.listen(PORT, () => {
+			console.log(`Server running. Use our API on port: ${PORT}`)
 		})
 	})
 	.catch(error => {
