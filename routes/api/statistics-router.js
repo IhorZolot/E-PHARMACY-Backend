@@ -4,6 +4,6 @@ import statisticsController from '../../controllers/statistics-controller.js'
 const statisticsRouter = express.Router()
 
 statisticsRouter.get('/', statisticsController.getAllStatistics)
-statisticsRouter.get('/id/', statisticsController.getStatOneClient)
+statisticsRouter.get('/:id', statisticsController.getStatOneClient)
 
 export default statisticsRouter

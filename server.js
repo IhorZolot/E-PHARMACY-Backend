@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import 'dotenv/config'
 import app from './app.js'
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 
 mongoose
 	.connect(process.env.DB_HOST)
