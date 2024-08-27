@@ -7,26 +7,18 @@ import Supplier from '../models/Supplier.js'
 import IncomeExpenses from '../models/IncomeExpenses.js'
 
 const getAllStatistics = async (req, res) => {
-	const productsCount = await Product.countDocuments(1)
+	const productsCount = await Product.countDocuments()
 	const customersCount = await Customer.countDocuments()
 	const suppliersCount = await Supplier.countDocuments()
 
-	console.log('Product Count:', productsCount)
-	console.log('Customer Count:', customersCount)
-	console.log('Supplier Count:', suppliersCount)
-
-	const statisticsCustomer = await Customer.find().lean()
+	const statisticsCustomer = await Customer.find({},"-image -phone -register_date" ).lean()
 	const statisticsIncomeExpenses = await IncomeExpenses.find().lean()
-
-	console.log('Customer Count All:', statisticsCustomer)
-	console.log('Income Expenses Result:', statisticsIncomeExpenses)
 
 	const counts = {
 		productsCount,
 		customersCount,
 		suppliersCount,
 	}
-
 	const result = {
 		counts,
 		statisticsCustomer,
@@ -35,13 +27,11 @@ const getAllStatistics = async (req, res) => {
 	res.json(result)
 }
 const getStatOneClient = async (req, res) => {
-	const { _id } = req.params
-	console.log(_id)
-
-	const result = await Customer.findById(_id).lean()
+	const {clientId} = req.params
+	const result = await Customer.findById(clientId).lean()
 
 	if (!result) {
-		throw HttpError(404, `Client with id:${_id}  not found`)
+		throw HttpError(404, `Client with id:${clientId} not found`)
 	}
 	res.json(result)
 }

@@ -1,16 +1,11 @@
 import express from 'express'
+import { isValidId } from '../../middlewares/index.js'
+import shopsController from '../../controllers/shops-controller.js'
 
 const shopsRouter = express.Router()
 
-shopsRouter.post('/create', (req, res) => {
-	console.log(req.body)
-	res.json({ message: 'OK' })
-})
-shopsRouter.get('/', (req, res) => {
-	res.json([])
-})
-shopsRouter.put('/{shopId}/update', (req, res) => {
-	res.json({ message: 'OK' })
-})
+shopsRouter.post('/create', shopsController.createShop)
+shopsRouter.get('/:shopId',  shopsController.getShopsById)
+shopsRouter.put('/:shopId/update',  shopsController.getShopUpdate)
 
 export default shopsRouter

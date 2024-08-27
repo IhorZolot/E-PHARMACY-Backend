@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose'
 
 const customerSchema = new Schema(
 	{
-		photo: {
+		image: {
 			type: String,
 			// required: true,
 		},

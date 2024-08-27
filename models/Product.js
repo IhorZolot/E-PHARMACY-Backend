@@ -27,6 +27,11 @@ const productSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		shopId: {
+			type: Schema.Types.ObjectId,
+			ref: 'shop',	
+			required: true,
+		}
 	},
 	{ versionKey: false, timestamps: true }
 )
