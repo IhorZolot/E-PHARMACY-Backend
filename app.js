@@ -4,7 +4,7 @@ import cors from 'cors'
 import 'dotenv/config'
 
 import shopsRouter from './routes/api/shops-router.js'
-import productsRouter from './routes/api/products-router.js'
+import productsShopsRouter from './routes/api/products-shops-router.js'
 import statisticsRouter from './routes/api/statistics-router.js'
 const app = express()
 
@@ -13,8 +13,8 @@ app.use(logger(formatsLogger))
 app.use(cors())
 app.use(express.json())
 
-app.use('/api/shops', shopsRouter)
-app.use('/api/shops', productsRouter)
+app.use('/api/shop', shopsRouter)
+app.use('/api/shop', productsShopsRouter)
 app.use('/api/statistics', statisticsRouter)
 
 app.use((req, res) => {
