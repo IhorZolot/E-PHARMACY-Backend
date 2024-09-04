@@ -94,7 +94,8 @@ const deleteProductShop = async (req, res) => {
     throw HttpError(404, `Product with ID: ${productId} not found`);
   }
   await Product.findByIdAndDelete(productId);
-  res.json({ shop, product });
+  res.json({ shop, product, message: 'Product deleted' });
+
 }
 
 

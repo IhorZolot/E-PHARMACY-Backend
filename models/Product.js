@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 import Joi from 'joi'
+import { handleSaveError, preUpdate } from '../hooks/hooks.js'
 
 const productSchema = new Schema(
 	{
@@ -35,6 +36,10 @@ const productSchema = new Schema(
 	},
 	{ versionKey: false, timestamps: true }
 )
+
+productSchema.post('save', handleSaveError)
+productSchema.pre('findByIdAndUpdate', preUpdate)
+productSchema.post('findByIdAndUpdate', handleSaveError)
 
 export const productAddSchemaJoi = Joi.object({
 	photo: Joi.string().uri().optional(),

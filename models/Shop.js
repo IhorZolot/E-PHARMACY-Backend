@@ -17,6 +17,7 @@ const shopSchema = new Schema(
 		},
 		phone: {
 			type: String,
+			// match: /^\d{10}$/,
 			required: true,
 		},
 		address: {

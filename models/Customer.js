@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose'
 
+const register_dateRegex = /^\d{4}$/
+
 const customerSchema = new Schema(
 	{
 		image: {
@@ -28,6 +30,7 @@ const customerSchema = new Schema(
 		},
 		register_date: {
 			type: String,
+			// match: register_dateRegex,
 			required: true,
 		},
 	},
