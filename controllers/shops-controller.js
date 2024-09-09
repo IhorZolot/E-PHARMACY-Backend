@@ -3,8 +3,10 @@ import { ctrlWrapper } from '../decorators/index.js'
 
 import Shop from '../models/Shop.js'
 
+
 const createShop = async (req, res) => {
-  const result = await Shop.create(req.body)
+  const { _id: owner } = req.user
+  const result = await (await Shop.create({...req.body, owner})).populate('owner')
   res.status(201).json(result)
 }
 const getShopsById = async (req, res) => {

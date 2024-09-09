@@ -19,7 +19,6 @@ const signup = async (req, res) => {
     email: newUser.email
   })
 }
-
 const signin = async (req, res) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
@@ -34,12 +33,27 @@ const signin = async (req, res) => {
     id: user._id
   }
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '48d' })
-
+  await User.findByIdAndUpdate(user._id, { token })
   res.json({ token })
-
 }
+const userInfo = async (req, res) => {
+  const { email, username} = req.user
+  res.json({
+    email,
+    username,
+  })
+}
+
+const logout = async (req, res) => {
+  const {_id} = req.user
+  await User.findByIdAndUpdate(_id, {token: ''})
+  res.json({message: 'User logged out'})
+}
+
 
 export default {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
+  userInfo: ctrlWrapper(userInfo),
+  logout: ctrlWrapper(logout),
 }

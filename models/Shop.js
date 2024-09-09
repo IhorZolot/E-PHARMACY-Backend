@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 import Joi from 'joi'
+import { handleSaveError, preUpdate } from '../hooks/hooks.js'
 
 const shopSchema = new Schema(
 	{
@@ -40,9 +41,18 @@ const shopSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		owner: {
+			type: Schema.Types.ObjectId,
+			ref: 'user',
+			required: true,
+		}
 	},
 	{ versionKey: false, timestamps: true }
 )
+
+shopSchema.post('save', handleSaveError)
+shopSchema.pre('findByIdAndUpdate', preUpdate)
+shopSchema.post('findByIdAndUpdate', handleSaveError)
 
 export const shopAddSchemaJoi = Joi.object({
 	shop: Joi.string().required(),

@@ -21,6 +21,9 @@ const userSchema = new Schema(
       minlength: 3,
       required: true,
     },
+    token: {
+      type: String,
+    },
   },
   { versionKey: false, timestamps: true }
 )
