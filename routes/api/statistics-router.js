@@ -6,6 +6,6 @@ const statisticsRouter = express.Router()
 statisticsRouter.use(authenticate)
 
 statisticsRouter.get('/', statisticsController.getAllStatistics)
-statisticsRouter.get('/:clientId/goods', statisticsController.getStatOneClient)
+statisticsRouter.get('/:clientId/goods', isValidId('clientId'), statisticsController.getStatOneClient)
 
 export default statisticsRouter

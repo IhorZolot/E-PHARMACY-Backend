@@ -27,7 +27,7 @@ const getAllStatistics = async (req, res) => {
 	res.json(result)
 }
 const getStatOneClient = async (req, res) => {
-	const {clientId} = req.params
+	const { clientId} = req.params
 	const result = await Customer.findById(clientId).lean()
 
 	if (!result) {
