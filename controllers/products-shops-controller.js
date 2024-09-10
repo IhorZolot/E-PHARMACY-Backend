@@ -1,9 +1,13 @@
 import mongoose from 'mongoose';
+import fs from 'fs/promises'
+import path from 'path'
+
 import { HttpError } from '../helpers/index.js'
 import { ctrlWrapper } from '../decorators/index.js'
 
 import Shop from '../models/Shop.js'
 import Product, {productAddSchemaJoi} from '../models/Product.js'
+const productImagePath = path.resolve('public', 'productImg')
 
 const getAllProductsShop = async (req, res) => {
   const { shopId } = req.params
@@ -23,6 +27,9 @@ const shop = await Shop.findById(shopId).lean();
 }
 const addProductShop = async (req, res) => {
   const { shopId } = req.params
+  const {path: oldPath, filename} = req.file
+  await fs.rename(oldPath, path.join(productImagePath, filename))
+  const photo= path.join( 'public','productImg', filename)
   if (!mongoose.Types.ObjectId.isValid(shopId)) {
     throw HttpError(400, 'Invalid shop ID');
   }
@@ -34,8 +41,8 @@ const addProductShop = async (req, res) => {
   if (error) {
     throw HttpError(400, error.details[0].message);
   }
-  const newProduct = new Product({ ...req.body, shopId });
-  await newProduct.save();
+  const newProduct = await Product.create({ ...req.body, photo, shopId });
+ 
   res.status(201).json(newProduct);
 
 }
