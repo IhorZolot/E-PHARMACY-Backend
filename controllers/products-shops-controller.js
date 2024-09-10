@@ -29,7 +29,7 @@ const addProductShop = async (req, res) => {
   const { shopId } = req.params
   const {path: oldPath, filename} = req.file
   await fs.rename(oldPath, path.join(productImagePath, filename))
-  const photo= path.join( 'public','productImg', filename)
+  const photo= path.join('productImg', filename)
   if (!mongoose.Types.ObjectId.isValid(shopId)) {
     throw HttpError(400, 'Invalid shop ID');
   }
