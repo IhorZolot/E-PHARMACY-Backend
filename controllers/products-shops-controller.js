@@ -11,6 +11,8 @@ const productImagePath = path.resolve('public', 'productImg')
 
 const getAllProductsShop = async (req, res) => {
   const { shopId } = req.params
+  const { page=1, limit=5 } = req.query
+  const skip = (page - 1) * limit
   if(!shopId) {
     throw HttpError(404, `Shop with id:${shopId} not found`)
 }
@@ -21,7 +23,7 @@ const shop = await Shop.findById(shopId).lean();
   if (!shop) {
     throw HttpError(404, `Shop with ID: ${shopId} not found`);
   }
-  const products = await Product.find({ shopId }).lean();
+  const products = await Product.find({ shopId }, '-createdAt -updatedAt', { skip, limit }).lean();
 
   res.json({ shop, products });
 }

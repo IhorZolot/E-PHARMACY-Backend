@@ -11,8 +11,11 @@ const getAllStatistics = async (req, res) => {
 	const customersCount = await Customer.countDocuments()
 	const suppliersCount = await Supplier.countDocuments()
 
-	const statisticsCustomer = await Customer.find({},"-image -phone -register_date" ).lean()
-	const statisticsIncomeExpenses = await IncomeExpenses.find().lean()
+	const {page = 1, limit = 5} = req.query
+	const skip = (page - 1) * limit
+
+	const statisticsCustomer = await Customer.find({}, '-createdAt -updatedAt', { skip, limit }, "-image -phone -register_date" ).lean()
+	const statisticsIncomeExpenses = await IncomeExpenses.find({}, '-createdAt -updatedAt', { skip, limit }).lean()
 
 	const counts = {
 		productsCount,
