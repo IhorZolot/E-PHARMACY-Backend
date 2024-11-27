@@ -7,6 +7,7 @@ import shopsRouter from './routes/api/shops-router.js'
 import productsShopsRouter from './routes/api/products-shops-router.js'
 import statisticsRouter from './routes/api/statistics-router.js'
 import authRouter from './routes/api/auth-router.js'
+import productsRouter from './routes/api/products-router.js'
 const app = express()
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
@@ -18,6 +19,7 @@ app.use(express.static('public'))
 app.use('/api/user', authRouter)
 app.use('/api/shop', shopsRouter)
 app.use('/api/shop', productsShopsRouter)
+app.use('/api/products', productsRouter)
 app.use('/api/statistics', statisticsRouter)
 
 app.use((req, res) => {

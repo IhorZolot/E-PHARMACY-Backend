@@ -18,7 +18,7 @@ const shopSchema = new Schema(
 		},
 		phone: {
 			type: String,
-			// match: /^\d{10}$/,
+			match: /^\d{8}$/,
 			required: true,
 		},
 		address: {
@@ -33,8 +33,9 @@ const shopSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		country: {
+		delivery: {
 			type: String,
+			enum: ['yes', 'no'],
 			required: true,
 		},
 		password: {
@@ -45,7 +46,7 @@ const shopSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'user',
 			required: true,
-		}
+		},
 	},
 	{ versionKey: false, timestamps: true }
 )
@@ -62,7 +63,7 @@ export const shopAddSchemaJoi = Joi.object({
 	address: Joi.string().required(),
 	city: Joi.string().required(),
 	postal: Joi.string().required(),
-	country: Joi.string().required(),
+	delivery: Joi.string().required(),
 	password: Joi.string().required(),
 })
 
@@ -74,7 +75,7 @@ export const shopUpdateSchemaJoi = Joi.object({
 	address: Joi.string().optional(),
 	city: Joi.string().optional(),
 	postal: Joi.string().optional(),
-	country: Joi.string().optional(),
+	delivery: Joi.string().optional(),
 	password: Joi.string().optional(),
 })
 

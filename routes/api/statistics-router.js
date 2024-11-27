@@ -1,6 +1,6 @@
 import express from 'express'
 import statisticsController from '../../controllers/statistics-controller.js'
-import {authenticate, isValidId} from '../../middlewares/index.js'
+import { authenticate, isValidId } from '../../middlewares/index.js'
 
 const statisticsRouter = express.Router()
 statisticsRouter.use(authenticate)
