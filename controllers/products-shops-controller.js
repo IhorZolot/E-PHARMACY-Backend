@@ -78,9 +78,7 @@ const getOneProductShop = async (req, res) => {
 }
 const updateProductShop = async (req, res) => {
 	const { shopId, productId } = req.params
-	if (!mongoose.Types.ObjectId.isValid(shopId)) {
-		throw HttpError(400, 'Invalid shop ID')
-	}
+
 	if (!mongoose.Types.ObjectId.isValid(shopId) || !mongoose.Types.ObjectId.isValid(productId)) {
 		throw HttpError(400, 'Invalid shop ID or product ID')
 	}
@@ -92,7 +90,20 @@ const updateProductShop = async (req, res) => {
 	if (!product) {
 		throw HttpError(404, `Product with ID: ${productId} not found`)
 	}
-	const updateProductShop = await Product.findByIdAndUpdate(productId, req.body, { new: true })
+
+	let photo = null
+	if (req.file) {
+		const { path: oldPath, filename } = req.file
+		const newPath = path.join(productImagePath, filename)
+		await fs.rename(oldPath, newPath)
+		photo = path.join('productImg', filename)
+	}
+	const updateData = { ...req.body }
+	if (photo) {
+		updateData.photo = photo
+	}
+
+	const updateProductShop = await Product.findByIdAndUpdate(productId, updateData, { new: true })
 	if (!updateProductShop) {
 		throw HttpError(404, `Product with ID: ${productId} not found`)
 	}
@@ -107,7 +118,7 @@ const deleteProductShop = async (req, res) => {
 	if (!product) {
 		throw HttpError(404, `Product with ID: ${productId} not found`)
 	}
-	res.json({ message: 'Product deleted successfully', product })
+	res.json({ message: 'Product deleted successfully', _id: productId })
 }
 export default {
 	getAllProductsShop: ctrlWrapper(getAllProductsShop),

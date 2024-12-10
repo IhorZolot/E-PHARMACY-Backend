@@ -1,12 +1,12 @@
 import express from 'express'
 
 import productsController from '../../controllers/products-controller.js'
-import { authenticate } from '../../middlewares/index.js'
+import { authenticate, isValidId } from '../../middlewares/index.js'
 
 const productsRouter = express.Router()
-
-productsRouter.use(authenticate)
+// productsRouter.use(authenticate)
 
 productsRouter.get('/', productsController.getAllProducts)
+productsRouter.get('/:productId', isValidId('productId'), productsController.getOneProduct)
 
 export default productsRouter

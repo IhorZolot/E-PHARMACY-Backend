@@ -6,7 +6,7 @@ import { shopAddSchemaJoi, shopUpdateSchemaJoi } from '../../models/Shop.js'
 
 const shopsRouter = express.Router()
 
-shopsRouter.use(authenticate)
+// shopsRouter.use(authenticate)
 shopsRouter.post('/create', validateBody(shopAddSchemaJoi), shopsController.createShop)
 shopsRouter.get('/:shopId', isValidId('shopId'), shopsController.getShopsById)
 shopsRouter.put(

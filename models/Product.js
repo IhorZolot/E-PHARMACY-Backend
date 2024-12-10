@@ -6,7 +6,6 @@ const productSchema = new Schema(
 	{
 		photo: {
 			type: String,
-			// required: true,
 		},
 		name: {
 			type: String,
@@ -14,25 +13,27 @@ const productSchema = new Schema(
 		},
 		suppliers: {
 			type: String,
-			required: true,
 		},
 		stock: {
-			type: Number,
-			required: true,
+			type: String,
 		},
 		price: {
-			type: Number,
+			type: String,
 			required: true,
 		},
 		category: {
 			type: String,
 			required: true,
 		},
+		description: {
+			type: String,
+		},
+
 		shopId: {
 			type: Schema.Types.ObjectId,
-			ref: 'shop',	
+			ref: 'shop',
 			required: true,
-		}
+		},
 	},
 	{ versionKey: false, timestamps: true }
 )
@@ -43,10 +44,12 @@ productSchema.post('findByIdAndUpdate', handleSaveError)
 
 export const productAddSchemaJoi = Joi.object({
 	photo: Joi.string().uri().optional(),
+	suppliers: Joi.string().optional(),
+	stock: Joi.string().optional(),
+	description: Joi.string().optional(),
+
 	name: Joi.string().required(),
-	suppliers: Joi.string().required(),
-	stock: Joi.number().required(),
-	price: Joi.number().required(),
+	price: Joi.string().required(),
 	category: Joi.string().required(),
 })
 
@@ -54,9 +57,10 @@ export const productUpdateSchemaJoi = Joi.object({
 	photo: Joi.string().uri().optional(),
 	name: Joi.string().optional(),
 	suppliers: Joi.string().optional(),
-	stock: Joi.number().optional(),
-	price: Joi.number().optional(),
+	stock: Joi.string().optional(),
+	price: Joi.string().optional(),
 	category: Joi.string().optional(),
+	description: Joi.string().optional(),
 })
 
 const Product = model('product', productSchema)

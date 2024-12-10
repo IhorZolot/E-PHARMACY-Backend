@@ -12,6 +12,16 @@ const getAllProducts = async (req, res) => {
 	res.json({ products, pages, total, limit, page })
 }
 
+const getOneProduct = async (req, res) => {
+	const { productId } = req.params
+	const product = await Product.findById(productId).lean()
+	if (!product) {
+		throw HttpError(404, `Product with ID: ${productId} not found`)
+	}
+	res.json(product)
+}
+
 export default {
 	getAllProducts: ctrlWrapper(getAllProducts),
+	getOneProduct: ctrlWrapper(getOneProduct),
 }
