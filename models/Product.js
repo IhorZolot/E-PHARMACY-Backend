@@ -18,7 +18,7 @@ const productSchema = new Schema(
 			type: String,
 		},
 		price: {
-			type: String,
+			type: Number,
 			required: true,
 		},
 		category: {
@@ -47,9 +47,8 @@ export const productAddSchemaJoi = Joi.object({
 	suppliers: Joi.string().optional(),
 	stock: Joi.string().optional(),
 	description: Joi.string().optional(),
-
 	name: Joi.string().required(),
-	price: Joi.string().required(),
+	price: Joi.number().required(),
 	category: Joi.string().required(),
 })
 
@@ -58,7 +57,7 @@ export const productUpdateSchemaJoi = Joi.object({
 	name: Joi.string().optional(),
 	suppliers: Joi.string().optional(),
 	stock: Joi.string().optional(),
-	price: Joi.string().optional(),
+	price: Joi.number().optional(),
 	category: Joi.string().optional(),
 	description: Joi.string().optional(),
 })
