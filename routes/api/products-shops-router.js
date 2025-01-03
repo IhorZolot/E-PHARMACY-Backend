@@ -6,7 +6,7 @@ import { productAddSchemaJoi, productUpdateSchemaJoi } from '../../models/Produc
 import validateBody from '../../decorators/validateBody.js'
 
 const productsShopsRouter = express.Router()
-// productsShopsRouter.use(authenticate)
+productsShopsRouter.use(authenticate)
 
 productsShopsRouter.get('/:shopId/product', isValidId('shopId'), productsShopController.getAllProductsShop)
 productsShopsRouter.post(
