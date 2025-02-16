@@ -11,7 +11,7 @@ const productImagePath = path.resolve('public', 'productImg')
 
 const getAllProductsShop = async (req, res) => {
 	const { shopId } = req.params
-	const { page = 1, limit = 5 } = req.query
+	const { page = 1, limit = 8 } = req.query
 	const skip = (page - 1) * limit
 	if (!shopId) {
 		throw HttpError(404, `Shop with id:${shopId} not found`)
@@ -53,10 +53,7 @@ const addProductShop = async (req, res) => {
 	}
 	const newProduct = await Product.create({ ...req.body, photo, shopId })
 
-	res.status(201).json({
-		message: 'Product added successfully',
-		product: newProduct,
-	})
+	res.status(201).json(newProduct)
 }
 const getOneProductShop = async (req, res) => {
 	const { shopId, productId } = req.params

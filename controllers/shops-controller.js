@@ -9,7 +9,6 @@ const createShop = async (req, res) => {
 	const { _id: owner, password } = req.user
 	const hashPassword = await bcryptjs.hash(password, 10)
 	const result = await (await Shop.create({ ...req.body, owner, password: hashPassword })).populate('owner')
-	// const result = await Shop.create({ ...req.body })
 
 	res.status(201).json(result)
 }

@@ -4,19 +4,24 @@ import jwt from 'jsonwebtoken'
 import User from '../models/User.js'
 import { HttpError } from '../helpers/index.js'
 import { ctrlWrapper } from '../decorators/index.js'
+import { token } from 'morgan'
+import Shop from '../models/Shop.js'
 const {JWT_SECRET} = process.env
 
 const signup = async (req, res) => {
-  const { email, password} = req.body
+  const { email, password, phone } = req.body
   const user = await User.findOne({ email })
   if ( user) {
     throw HttpError(409, 'Email already in use')
   }
+  if (!email || !password || !phone)  {
+		return res.status(400).json({ error: 'All fields must be filled' })
+	}
   const hashPassword = await bcryptjs.hash(password, 10)
   const newUser = await User.create({...req.body, password:hashPassword})
   res.status(201).json({ 
-    username: newUser.username,
-    email: newUser.email
+      username: newUser.username,
+      email: newUser.email
   })
 }
 const signin = async (req, res) => {
@@ -37,10 +42,14 @@ const signin = async (req, res) => {
   res.json({ token })
 }
 const userInfo = async (req, res) => {
-  const { email, username} = req.user
+  const { email, username, _id } = req.user
+
+  const shop = await Shop.findOne({ owner: _id });
+
   res.json({
     email,
     username,
+    shopId: shop ? shop._id : null,
   })
 }
 

@@ -4,7 +4,7 @@ import { ctrlWrapper } from '../decorators/index.js'
 import Product from '../models/Product.js'
 
 const getAllProducts = async (req, res) => {
-	const { page = 1, limit = 5 } = req.query
+	const { page = 1, limit = 8 } = req.query
 	const skip = (page - 1) * limit
 	const products = await Product.find({}, '-createdAt -updatedAt', { skip, limit }).lean()
 	const total = await Product.countDocuments()
