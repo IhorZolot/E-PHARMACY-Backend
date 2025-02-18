@@ -9,6 +9,7 @@ import statisticsRouter from './routes/api/statistics-router.js'
 import authRouter from './routes/api/auth-router.js'
 import productsRouter from './routes/api/products-router.js'
 import reviewsRouter from './routes/api/reviews-router.js'
+import  policyPublicRouter from './routes/api/policy-public-routes.js'
 
 const app = express()
 
@@ -24,6 +25,8 @@ app.use('/api/shop', productsShopsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/statistics', statisticsRouter)
 app.use('/api/reviews', reviewsRouter)
+app.use('/api/policy', policyPublicRouter)
+
 
 app.use((req, res) => {
 	res.status(404).json({ message: 'Not found' })

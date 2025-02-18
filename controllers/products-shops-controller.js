@@ -25,16 +25,14 @@ const getAllProductsShop = async (req, res) => {
 	}
 	const products = await Product.find({ shopId }, '-createdAt -updatedAt', { skip, limit })
 	const totalProducts = await Product.countDocuments({ shopId })
-
-	res.json({ shop, products, totalProducts, limit, page })
+	const pages = Math.ceil(totalProducts / limit)
+	res.json({ shop, products, totalProducts, limit, page, pages })
 }
 const addProductShop = async (req, res) => {
 	const { shopId } = req.params
-
 	if (!mongoose.Types.ObjectId.isValid(shopId)) {
 		throw HttpError(400, 'Invalid shop ID')
 	}
-
 	const shop = await Shop.findById(shopId)
 	if (!shop) {
 		throw HttpError(404, `Shop with ID: ${shopId} not found`)
@@ -45,6 +43,8 @@ const addProductShop = async (req, res) => {
 		const newPath = path.join(productImagePath, filename)
 		await fs.rename(oldPath, newPath)
 		photo = path.join('productImg', filename)
+	}else if (req.body.photo) {
+		photo = req.body.photo;
 	}
 
 	const { error } = productAddSchemaJoi.validate(req.body)

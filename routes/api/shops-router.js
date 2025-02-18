@@ -16,4 +16,5 @@ shopsRouter.put(
 	shopsController.getShopUpdate
 )
 
+
 export default shopsRouter

@@ -25,7 +25,7 @@ const getOneProduct = async (req, res) => {
 	res.json(product)
 }
 const filterByCategoryAndQuery = async (req, res) => {
-	const { category, query } = req.query
+	const { category, query, page = 1, limit = 8 } = req.query
 	const filters = {}
 	if (category) {
 		filters.category = category
@@ -33,8 +33,18 @@ const filterByCategoryAndQuery = async (req, res) => {
 	if (query) {
 		filters.name = { $regex: query, $options: 'i' }
 	}
-	const result = await Product.find(filters, '-createdAt -updatedAt').lean()
-	res.json(result)
+	const skip = (page - 1) * limit
+	const products = await Product.find(filters, '-createdAt -updatedAt', { skip, limit }).lean()
+	const total = await Product.countDocuments(filters)
+	const pages = Math.ceil(total / limit)
+
+	res.json({
+		products,
+		total,
+		pages,
+		page,
+		limit,
+	})
 }
 
 export default {

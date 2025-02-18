@@ -12,7 +12,6 @@ productsShopsRouter.get('/:shopId/product', isValidId('shopId'), productsShopCon
 productsShopsRouter.post(
 	'/:shopId/product/add',
 	isValidId('shopId'),
-	upload.single('photo'),
 	validateBody(productAddSchemaJoi),
 	productsShopController.addProductShop
 )

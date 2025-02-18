@@ -38,6 +38,7 @@ const getStatOneClient = async (req, res) => {
 	}
 	res.json(result)
 }
+
 export default {
 	getAllStatistics: ctrlWrapper(getAllStatistics),
 	getStatOneClient: ctrlWrapper(getStatOneClient),
